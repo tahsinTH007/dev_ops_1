@@ -24,8 +24,8 @@ app.get('/health', (req, res) => {
 });
 
 // Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack, next);
+app.use((err, req, res, _next) => {
+  console.error(err.stack);
   res.status(500).json({ message: 'Something went wrong!' });
 });
 
@@ -36,10 +36,7 @@ app.use('*', (req, res) => {
 
 // Database connection
 mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log('Connected to MongoDB');
     app.listen(PORT, () => {
